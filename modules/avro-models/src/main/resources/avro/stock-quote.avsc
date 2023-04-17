@@ -1,0 +1,9 @@
+{
+    "namespace":"org.hung.kafka.pojo",
+    "type":"record",
+    "name":"StockQuote",
+    "fields": [
+        { "name":"ticker", "type":"string" },
+        { "name":"price", "type":"double" }
+    ]
+}

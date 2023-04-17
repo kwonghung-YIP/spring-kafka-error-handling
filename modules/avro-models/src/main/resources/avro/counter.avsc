@@ -1,0 +1,8 @@
+{
+    "namespace":"org.hung.kafka.pojo",
+    "type":"record",
+    "name":"Counter",
+    "fields": [
+        { "name":"value", "type":"long" }
+    ]
+}

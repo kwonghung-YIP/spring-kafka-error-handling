@@ -1,7 +1,18 @@
 spring:
+  #devtools:
+  #  add-properties: false
+
   kafka:
     consumer:
       group-id: counter
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      #value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        specific.avro.reader: true
+        #spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        #spring.deserializer.value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
 
+
+    properties:
+      schema.registry.url: http://localhost:8081

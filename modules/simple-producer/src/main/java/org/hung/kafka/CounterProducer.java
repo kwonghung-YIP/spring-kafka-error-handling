@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import org.hung.kafka.pojo.Counter;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,7 +19,8 @@ public class CounterProducer {
     private final KafkaTemplate template;
 
     public void publish() {
+        counter++;
         log.info("Publish counter {} to topic {}",counter,topic);
-        template.send(topic,counter++);
+        template.send(topic,new Counter(counter));
     }
 }

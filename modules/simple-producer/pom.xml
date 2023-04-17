@@ -8,13 +8,14 @@
         <version>3.0.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>hung-kafka-poc</groupId>
+    <groupId>hung.kafka.poc</groupId>
     <artifactId>simple-producer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>simple-producer</name>
     <description>simple-producer</description>
     <properties>
         <java.version>17</java.version>
+        <confluent.kafka.version>7.3.3</confluent.kafka.version>
     </properties>
     <dependencies>
         <dependency>
@@ -24,6 +25,19 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>hung.kafka.poc</groupId>
+            <artifactId>avro-models</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--
+          https://packages.confluent.io/maven/io/confluent/kafka-avro-serializer/
+        -->
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>${confluent.kafka.version}</version>
         </dependency>
 
         <dependency>
@@ -66,4 +80,11 @@
         </plugins>
     </build>
 
+    <repositories>
+        <!-- Confluent Maven repo, required to download the Confluent Kafka Avro Serializer dependencies -->
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
 </project>
