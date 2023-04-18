@@ -7,6 +7,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import org.hung.kafka.pojo.Counter;
 
+import java.util.UUID;
+
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -21,6 +23,6 @@ public class CounterProducer {
     public void publish() {
         counter++;
         log.info("Publish counter {} to topic {}",counter,topic);
-        template.send(topic,new Counter(counter));
+        template.send(topic, UUID.randomUUID(), new Counter(counter));
     }
 }
