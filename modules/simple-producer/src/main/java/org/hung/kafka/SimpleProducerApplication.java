@@ -19,7 +19,7 @@ public class SimpleProducerApplication {
     @Autowired
     private CounterProducer counter;
 
-    @Scheduled(fixedRateString = "2000")
+    @Scheduled(fixedRateString = "5000")
     public void publishCounter() {
         counter.publish();
     }

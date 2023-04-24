@@ -5,21 +5,23 @@ spring:
   kafka:
     consumer:
       group-id: counter
-      key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
-      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      #key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
+      #value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       # ErrorHandlingDeserializer catches the exception, serializes it, and put it into message header
       # Reference: https://docs.spring.io/spring-kafka/api/org/springframework/kafka/support/serializer/ErrorHandlingDeserializer.html
-      #key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-      #value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
         specific.avro.reader: true
         # the properties to delegate the serializers for ErrorHandlingDeserializer
-        #spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.UUIDDeserializer
-        #spring.deserializer.value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.UUIDDeserializer
+        spring.deserializer.value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
 
     producer:
+      #key-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
       key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      #value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
 
     properties:
       schema.registry.url: http://localhost:8081
