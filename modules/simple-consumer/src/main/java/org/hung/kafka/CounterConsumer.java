@@ -13,7 +13,7 @@ public class CounterConsumer {
 
     @KafkaListener(topics = {"counter"})
     public void receive(Counter counter, @Header(KafkaHeaders.RECEIVED_PARTITION) String partition) {
-        if (counter.getValue()%10!=0) {
+        if (counter.getValue()%5!=0) {
             log.info("received counter {}",counter.getValue());
         } else {
             throw new RuntimeException("Consumer exception!! [" + counter.getValue() + "] partition Id:" + partition);
