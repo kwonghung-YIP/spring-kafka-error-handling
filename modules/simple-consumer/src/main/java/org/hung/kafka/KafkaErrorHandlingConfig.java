@@ -8,28 +8,29 @@ import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.VoidSerializer;
 import org.apache.kafka.common.utils.Bytes;
 import org.hung.kafka.pojo.Counter;
+import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaProducerFactoryCustomizer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaOperations;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.CommonLoggingErrorHandler;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.ProducerListener;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.serializer.DeserializationException;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
+import org.springframework.stereotype.Component;
 import org.springframework.util.backoff.BackOff;
 import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Configuration
@@ -37,6 +38,16 @@ import java.util.Map;
 public class KafkaErrorHandlingConfig {
 
     private final KafkaProperties properties;
+
+//    @Bean
+//    public ConsumerFactory<?,Counter> consumerFactory() {
+//        Map<String,Object> consumerProperties = properties.buildConsumerProperties();
+//        DefaultKafkaConsumerFactory<?,Counter> factory = new DefaultKafkaConsumerFactory(consumerProperties);
+//        ErrorHandlingDeserializer<Counter> deserializer = new ErrorHandlingDeserializer<Counter>();
+//        deserializer.set
+//        factory.setValueDeserializer(deserializer);
+//        return factory;
+//    }
 
     //When CommonLoggingErrorHandler was defined, the DeadLetterPublishingRecoverer was skipped
     //@Bean
@@ -68,6 +79,8 @@ public class KafkaErrorHandlingConfig {
                 return new TopicPartition("dead-msg-queue",0);
             } else if (exception.getCause() instanceof MethodArgumentNotValidException e) {
                 return new TopicPartition("empty-msg-queue",0);
+            } else if (exception.getCause() instanceof NotReadablePropertyException e) {
+                return new TopicPartition("invalid-payload-queue",0);
             } else {
                 return new TopicPartition(producerRecord.topic() + "-DLQ", producerRecord.partition());
             }

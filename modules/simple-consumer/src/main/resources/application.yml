@@ -1,6 +1,10 @@
 spring:
-  #devtools:
-  #  add-properties: false
+#  devtools:
+#    add-properties: false
+
+#  devtools:
+#    restart:
+#      enabled: false
 
   kafka:
     consumer:

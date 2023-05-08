@@ -1,0 +1,19 @@
+apiVersion: skaffold/v4beta2
+kind: Config
+build:
+  artifacts:
+      - image: localhost:32000/kafka-demo/simple-producer
+        context: modules/simple-producer
+        jib:
+          type: maven
+      - image: localhost:32000/kafka-demo/simple-consumer
+        context: modules/simple-consumer
+        jib:
+          type: maven
+  insecureRegistries:
+    - "localhost:32000"
+profiles:
+  - name: microk8s
+    deploy:
+
+
