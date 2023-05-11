@@ -7,3 +7,14 @@ spring:
 
     properties:
       schema.registry.url: http://localhost:8081
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - microk8s
+
+  kafka:
+    bootstrap-servers: kafka-broker.kafka:9092
+    properties:
+      schema.registry.url: http://kafka-schema.kafka:8081

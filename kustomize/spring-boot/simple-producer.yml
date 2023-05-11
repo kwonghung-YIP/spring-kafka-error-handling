@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-producer
+spec:
+  selector:
+    matchLabels:
+      app: simple-producer
+  template:
+    metadata:
+      labels:
+        app: simple-producer
+    spec:
+      containers:
+        - name: spring-boot
+          image: localhost:32000/kafka-demo/simple-producer
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: microk8s
