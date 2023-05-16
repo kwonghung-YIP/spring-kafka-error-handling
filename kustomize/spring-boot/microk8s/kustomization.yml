@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+  - ../base
+
+configMapGenerator:
+  - name: simple-consumer-application-yml
+    behavior: create
+    files:
+      - simple-consumer/application-microk8s.yml
+
+  - name: simple-producer-application-yml
+    behavior: create
+    files:
+      - simple-producer/application-microk8s.yml
+
+replicas:
+  - name: simple-producer
+    count: 3
+  - name: simple-consumer
+    count: 3
+
+patchesStrategicMerge:
+  - simple-consumer/simple-consumer.yml
+  - simple-producer/simple-producer.yml

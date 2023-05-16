@@ -17,6 +17,16 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - kustomize/spring-boot
+          - kustomize/spring-boot/microk8s
+
+    portForward:
+      - resourceType: service
+        resourceName: kafka-ui
+        namespace: kafka
+        port: 8080
+        localPort: 8080
+        address: 0.0.0.0
+
+
 
 

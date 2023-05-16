@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-consumer
+spec:
+  selector:
+    matchLabels:
+      app: simple-consumer
+  template:
+    metadata:
+      labels:
+        app: simple-consumer
+    spec:
+      containers:
+        - name: spring-boot
+          image: localhost:32000/kafka-demo/simple-consumer

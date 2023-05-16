@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-consumer
+spec:
+  template:
+    spec:
+      containers:
+        - name: spring-boot
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: microk8s
+          volumeMounts:
+            - name: spring-boot-configmap
+              mountPath: "/app/resources/application-microk8s.yml"
+              subPath: "application-microk8s.yml"
+              readOnly: true
+      volumes:
+        - name: spring-boot-configmap
+          configMap:
+            name: simple-consumer-application-yml
