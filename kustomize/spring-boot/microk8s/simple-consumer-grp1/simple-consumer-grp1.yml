@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-consumer
+  name: simple-consumer-grp1
 spec:
   template:
     spec:
@@ -18,4 +18,4 @@ spec:
       volumes:
         - name: spring-boot-configmap
           configMap:
-            name: simple-consumer-application-yml
+            name: simple-consumer-grp1-application-yml

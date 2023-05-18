@@ -14,11 +14,15 @@ import org.springframework.stereotype.Component;
 public class CounterConsumer {
 
     @KafkaListener(topics = {"counter"})
-    public void receive(@Payload @Valid Counter counter, @Header(KafkaHeaders.RECEIVED_PARTITION) String partition) {
+    public void receive(
+            @Payload @Valid Counter counter,
+            @Header(KafkaHeaders.GROUP_ID) String groupId,
+            @Header(KafkaHeaders.RECEIVED_PARTITION) String partition
+    ) {
         if (counter.getValue()%5!=0) {
-            log.info("received counter {}",counter.getValue());
+            log.info("received counter {} ({},{})",counter.getValue(),groupId,partition);
         } else {
-            throw new RuntimeException("Consumer exception!! [" + counter.getValue() + "] partition Id:" + partition);
+            throw new RuntimeException("Consumer exception!! [" + counter.getValue() + "] (group,partition) : (" + groupId + ":" + partition + ")");
         }
     }
 }

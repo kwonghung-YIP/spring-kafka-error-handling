@@ -1,17 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-producer
+  name: simple-consumer-grp1
 spec:
   selector:
     matchLabels:
-      app: simple-producer
+      app: simple-consumer-grp1
   template:
     metadata:
       labels:
-        app: simple-producer
+        app: simple-consumer-grp1
     spec:
       containers:
         - name: spring-boot
-          image: localhost:32000/kafka-demo/simple-producer
-
+          image: localhost:32000/kafka-demo/simple-consumer

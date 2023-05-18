@@ -4,10 +4,15 @@ bases:
   - ../base
 
 configMapGenerator:
-  - name: simple-consumer-application-yml
+  - name: simple-consumer-grp1-application-yml
     behavior: create
     files:
-      - simple-consumer/application-microk8s.yml
+      - simple-consumer-grp1/application-microk8s.yml
+
+  - name: simple-consumer-grp2-application-yml
+    behavior: create
+    files:
+      - simple-consumer-grp2/application-microk8s.yml
 
   - name: simple-producer-application-yml
     behavior: create
@@ -16,10 +21,13 @@ configMapGenerator:
 
 replicas:
   - name: simple-producer
-    count: 3
-  - name: simple-consumer
-    count: 3
+    count: 1
+  - name: simple-consumer-grp1
+    count: 5
+  - name: simple-consumer-grp2
+    count: 5
 
 patchesStrategicMerge:
-  - simple-consumer/simple-consumer.yml
   - simple-producer/simple-producer.yml
+  - simple-consumer-grp1/simple-consumer-grp1.yml
+  - simple-consumer-grp2/simple-consumer-grp2.yml
